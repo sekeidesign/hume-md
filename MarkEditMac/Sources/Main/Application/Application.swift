@@ -11,7 +11,9 @@ import MarkEditKit
 @main
 final class Application: NSApplication {
   var currentEditor: EditorViewController? {
-    keyWindow?.contentViewController as? EditorViewController
+    guard let vc = keyWindow?.contentViewController else { return nil }
+    if let editor = vc as? EditorViewController { return editor }
+    return vc.children.first { $0 is EditorViewController } as? EditorViewController
   }
 
   static func main() {

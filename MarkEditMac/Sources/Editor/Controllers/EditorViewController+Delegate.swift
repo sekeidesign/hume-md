@@ -105,6 +105,7 @@ extension EditorViewController: EditorModuleCoreDelegate {
   func editorCoreWindowDidLoad(_ sender: EditorModuleCore) {
     hasFinishedLoading = true
     resetEditor()
+    setUpEmptyStateIfNeeded()
 
     loadingIndicator.scaleTo(0.9, duration: 0.1) {
       let duration: TimeInterval = 0.3

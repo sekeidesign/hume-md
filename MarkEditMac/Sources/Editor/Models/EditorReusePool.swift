@@ -37,8 +37,10 @@ final class EditorReusePool {
       $0 as? EditorWindow
     }
 
-    let controllers = windows.compactMap {
-      $0.contentViewController as? EditorViewController
+    let controllers = windows.compactMap { window -> EditorViewController? in
+      let vc = window.contentViewController
+      if let editor = vc as? EditorViewController { return editor }
+      return vc?.children.first { $0 is EditorViewController } as? EditorViewController
     }
 
     return controllers.filter { $0 !== preloadedController } + [preloadedController].compactMap { $0 }

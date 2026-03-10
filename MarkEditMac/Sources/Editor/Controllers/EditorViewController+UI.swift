@@ -136,8 +136,8 @@ extension EditorViewController {
     addLocalMonitorForEvents()
   }
 
-  func configureToolbar() {
-    let toolbar = NSToolbar(identifier: "EditorToolbar")
+  func configureWindow() {
+    let toolbar = NSToolbar(identifier: "EditorToolbar-2")
     toolbar.displayMode = .iconOnly
     toolbar.delegate = self
     toolbar.allowsUserCustomization = true
@@ -150,7 +150,6 @@ extension EditorViewController {
     view.window?.appearance = AppTheme.current.resolvedAppearance
 
     updateWindowColors(.current)
-    resetCustomToolbarItems()
   }
 
   func updateWindowColors(_ theme: AppTheme) {
@@ -413,46 +412,6 @@ extension EditorViewController {
       } else {
         menu.addItem(item)
       }
-    }
-
-    resetCustomToolbarItems()
-  }
-
-  func resetCustomToolbarItems() {
-    let toolbarItems = view.window?.toolbar?.items.compactMap {
-      $0 as? NSMenuToolbarItem
-    }
-
-    let specsDict: [String: WebMenuItem] = Dictionary(
-      uniqueKeysWithValues: userDefinedMenuItems.compactMap {
-        guard let title = $0.item.title else {
-          return nil
-        }
-
-        return (title, $0.item)
-      }
-    )
-
-    toolbarItems?.forEach { toolbarItem in
-      guard let title = customItem(with: toolbarItem.itemIdentifier)?.menuName else {
-        return
-      }
-
-      if let spec = specsDict[title] {
-        let menuItem = createMenuItem(
-          spec: spec,
-          handler: bridge.api.handleMainMenuAction
-        )
-
-        menuItem.setEnabledRecursively(isEnabled: true)
-        toolbarItem.menu = menuItem.submenu ?? NSMenu()
-      } else if let submenu = NSApp.mainMenu?.firstMenuNamed(title)?.submenu?.copiedMenu {
-        toolbarItem.menu = submenu
-      } else {
-        Logger.log(.error, "Missing menu named: \(title)")
-      }
-
-      updateUserDefinedMenus(toolbarItem.menu)
     }
   }
 

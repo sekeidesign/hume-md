@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2865EAC8D598374A5E0C40CD /* MarkEditMac/Sources/Repository/RepositoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9348480A5CE7D73E4721CA /* MarkEditMac/Sources/Repository/RepositoryManager.swift */; };
+		29DA090E38DF66D078D751CC /* MarkEditMac/Sources/Repository/RepositoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FF7A8BA01840955FDE1B0C /* MarkEditMac/Sources/Repository/RepositoryModel.swift */; };
+		327E247BFB66169DA62EB703 /* MarkEditMac/Sources/Repository/EditorViewController+Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00D1783B2FB6503753360C1 /* MarkEditMac/Sources/Repository/EditorViewController+Repository.swift */; };
+		3B4F6E3763184667E71C7D9B /* MarkEditMac/Sources/Services/FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA4E6FA468FB6EBC201B9FA /* MarkEditMac/Sources/Services/FileService.swift */; };
+		67A3C248AA4AAE0A79EBA728 /* MarkEditMac/Sources/Repository/ConnectRepoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D79A1415A348E4930AF9E8F /* MarkEditMac/Sources/Repository/ConnectRepoViewController.swift */; };
 		84FB00F02C6C4AED00850E94 /* AppWritingTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FB00EF2C6C4AED00850E94 /* AppWritingTools.swift */; };
+		86972D808E0DEBB9449D9C9D /* MarkEditMac/Sources/Repository/PublishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C249DE1784E54E7870ED968E /* MarkEditMac/Sources/Repository/PublishViewController.swift */; };
 		8701D0A42CC12321006AF8C2 /* FileVersion in Frameworks */ = {isa = PBXBuildFile; productRef = 8701D0A32CC12321006AF8C2 /* FileVersion */; };
 		87067E2729755D5C0052E795 /* EditorStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87067E2629755D5C0052E795 /* EditorStatusView.swift */; };
 		87091B9A2A963C6B00F5EF0D /* EditorTextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87091B992A963C6B00F5EF0D /* EditorTextInput.swift */; };
@@ -109,7 +115,12 @@
 		87F2B5F429ACF56E0027103E /* EditorViewController+Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F2B5F329ACF56E0027103E /* EditorViewController+Completion.swift */; };
 		87F2B61429AF2F3A0027103E /* NSSpellChecker+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F2B61329AF2F3A0027103E /* NSSpellChecker+Extension.swift */; };
 		87FAFFD72BE0B6A300FA509D /* AppDelegate+FileSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FAFFD62BE0B6A300FA509D /* AppDelegate+FileSystem.swift */; };
+		A2F0A042CAE056FAA88B0FD2 /* MarkEditMac/Sources/Repository/RepositoryFileItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0129354F3E00C6C8161AD2B /* MarkEditMac/Sources/Repository/RepositoryFileItem.swift */; };
+		A3E03CFD65357FB1A37554B1 /* MarkEditMac/Sources/Services/GitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73515745D07C7E107586F423 /* MarkEditMac/Sources/Services/GitService.swift */; };
+		AC81A7EEED88333497A4210B /* MarkEditMac/Sources/Repository/RepositorySidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6579B28661776B19701CC18F /* MarkEditMac/Sources/Repository/RepositorySidebarViewController.swift */; };
 		B0E02F682D8F77A50060DEA5 /* MarkEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = B0E02F672D8F77A50060DEA5 /* MarkEdit.sdef */; };
+		B32A01D88B5603F437D5FC7D /* RepositorySidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C854C4637E3A7122247F3F98 /* RepositorySidebarView.swift */; };
+		E0ACDA4BF8CF9A7AB331A38A /* EditorViewController+EmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9A7EDC079856F094779D85 /* EditorViewController+EmptyState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,6 +156,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1E9A7EDC079856F094779D85 /* EditorViewController+EmptyState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "EditorViewController+EmptyState.swift"; sourceTree = "<group>"; };
+		2D79A1415A348E4930AF9E8F /* MarkEditMac/Sources/Repository/ConnectRepoViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MarkEditMac/Sources/Repository/ConnectRepoViewController.swift; sourceTree = SOURCE_ROOT; };
+		50FF7A8BA01840955FDE1B0C /* MarkEditMac/Sources/Repository/RepositoryModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MarkEditMac/Sources/Repository/RepositoryModel.swift; sourceTree = SOURCE_ROOT; };
+		6579B28661776B19701CC18F /* MarkEditMac/Sources/Repository/RepositorySidebarViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MarkEditMac/Sources/Repository/RepositorySidebarViewController.swift; sourceTree = SOURCE_ROOT; };
+		6B9348480A5CE7D73E4721CA /* MarkEditMac/Sources/Repository/RepositoryManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MarkEditMac/Sources/Repository/RepositoryManager.swift; sourceTree = SOURCE_ROOT; };
+		73515745D07C7E107586F423 /* MarkEditMac/Sources/Services/GitService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MarkEditMac/Sources/Services/GitService.swift; sourceTree = SOURCE_ROOT; };
 		84FB00EF2C6C4AED00850E94 /* AppWritingTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppWritingTools.swift; sourceTree = "<group>"; };
 		87067E2629755D5C0052E795 /* EditorStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorStatusView.swift; sourceTree = "<group>"; };
 		87091B992A963C6B00F5EF0D /* EditorTextInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorTextInput.swift; sourceTree = "<group>"; };
@@ -250,6 +267,11 @@
 		87F2B61329AF2F3A0027103E /* NSSpellChecker+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSSpellChecker+Extension.swift"; sourceTree = "<group>"; };
 		87FAFFD62BE0B6A300FA509D /* AppDelegate+FileSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+FileSystem.swift"; sourceTree = "<group>"; };
 		B0E02F672D8F77A50060DEA5 /* MarkEdit.sdef */ = {isa = PBXFileReference; lastKnownFileType = text; path = MarkEdit.sdef; sourceTree = "<group>"; };
+		C249DE1784E54E7870ED968E /* MarkEditMac/Sources/Repository/PublishViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MarkEditMac/Sources/Repository/PublishViewController.swift; sourceTree = SOURCE_ROOT; };
+		C854C4637E3A7122247F3F98 /* RepositorySidebarView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RepositorySidebarView.swift; sourceTree = "<group>"; };
+		D00D1783B2FB6503753360C1 /* MarkEditMac/Sources/Repository/EditorViewController+Repository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "MarkEditMac/Sources/Repository/EditorViewController+Repository.swift"; sourceTree = SOURCE_ROOT; };
+		F0129354F3E00C6C8161AD2B /* MarkEditMac/Sources/Repository/RepositoryFileItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MarkEditMac/Sources/Repository/RepositoryFileItem.swift; sourceTree = SOURCE_ROOT; };
+		FFA4E6FA468FB6EBC201B9FA /* MarkEditMac/Sources/Services/FileService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MarkEditMac/Sources/Services/FileService.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -378,6 +400,8 @@
 				8780AC0A29822C5500065EF4 /* Settings */,
 				8765FD262AF291A300C645A8 /* Updater */,
 				87850C8429482A6A00D1A952 /* Extensions */,
+				DA4B1F66DC2E37829346BA79 /* Repository */,
+				FD4CC078759DBFBB9A640E53 /* Services */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -610,6 +634,31 @@
 			path = Replace;
 			sourceTree = "<group>";
 		};
+		DA4B1F66DC2E37829346BA79 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				F0129354F3E00C6C8161AD2B /* MarkEditMac/Sources/Repository/RepositoryFileItem.swift */,
+				50FF7A8BA01840955FDE1B0C /* MarkEditMac/Sources/Repository/RepositoryModel.swift */,
+				6B9348480A5CE7D73E4721CA /* MarkEditMac/Sources/Repository/RepositoryManager.swift */,
+				2D79A1415A348E4930AF9E8F /* MarkEditMac/Sources/Repository/ConnectRepoViewController.swift */,
+				C249DE1784E54E7870ED968E /* MarkEditMac/Sources/Repository/PublishViewController.swift */,
+				6579B28661776B19701CC18F /* MarkEditMac/Sources/Repository/RepositorySidebarViewController.swift */,
+				D00D1783B2FB6503753360C1 /* MarkEditMac/Sources/Repository/EditorViewController+Repository.swift */,
+				1E9A7EDC079856F094779D85 /* EditorViewController+EmptyState.swift */,
+				C854C4637E3A7122247F3F98 /* RepositorySidebarView.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		FD4CC078759DBFBB9A640E53 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				73515745D07C7E107586F423 /* MarkEditMac/Sources/Services/GitService.swift */,
+				FFA4E6FA468FB6EBC201B9FA /* MarkEditMac/Sources/Services/FileService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -660,8 +709,6 @@
 			dependencies = (
 			);
 			name = FinderExtension;
-			packageProductDependencies = (
-			);
 			productName = FinderExtension;
 			productReference = 87152B9A2EC599CA00B39F06 /* FinderExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -846,6 +893,17 @@
 				874065792BB505F500B5CE5A /* EditorViewController+Events.swift in Sources */,
 				87067E2729755D5C0052E795 /* EditorStatusView.swift in Sources */,
 				87ACB6942BD8CA8400CE6F9E /* Application.swift in Sources */,
+				A2F0A042CAE056FAA88B0FD2 /* MarkEditMac/Sources/Repository/RepositoryFileItem.swift in Sources */,
+				29DA090E38DF66D078D751CC /* MarkEditMac/Sources/Repository/RepositoryModel.swift in Sources */,
+				2865EAC8D598374A5E0C40CD /* MarkEditMac/Sources/Repository/RepositoryManager.swift in Sources */,
+				67A3C248AA4AAE0A79EBA728 /* MarkEditMac/Sources/Repository/ConnectRepoViewController.swift in Sources */,
+				86972D808E0DEBB9449D9C9D /* MarkEditMac/Sources/Repository/PublishViewController.swift in Sources */,
+				AC81A7EEED88333497A4210B /* MarkEditMac/Sources/Repository/RepositorySidebarViewController.swift in Sources */,
+				327E247BFB66169DA62EB703 /* MarkEditMac/Sources/Repository/EditorViewController+Repository.swift in Sources */,
+				A3E03CFD65357FB1A37554B1 /* MarkEditMac/Sources/Services/GitService.swift in Sources */,
+				3B4F6E3763184667E71C7D9B /* MarkEditMac/Sources/Services/FileService.swift in Sources */,
+				E0ACDA4BF8CF9A7AB331A38A /* EditorViewController+EmptyState.swift in Sources */,
+				B32A01D88B5603F437D5FC7D /* RepositorySidebarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1069,7 +1127,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(inherited)";
 				PRODUCT_NAME = MarkEdit;
@@ -1105,7 +1163,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(inherited)";
 				PRODUCT_NAME = MarkEdit;

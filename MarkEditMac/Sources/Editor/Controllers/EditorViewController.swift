@@ -254,7 +254,7 @@ final class EditorViewController: NSViewController {
 
   override func viewWillAppear() {
     super.viewWillAppear()
-    configureToolbar()
+    configureWindow()
   }
 
   override func viewDidLayout() {

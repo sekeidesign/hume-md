@@ -18,7 +18,10 @@ extension AppDelegate {
   }
 
   func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
-    shouldOpenOrCreateDocument() && openOrCreateDocument(sender: sender)
+    // Always open a blank window on launch regardless of the newWindowBehavior preference.
+    // Returning true creates an untitled document directly, bypassing the open-file panel.
+    guard shouldOpenOrCreateDocument() else { return false }
+    return true
   }
 
   func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {

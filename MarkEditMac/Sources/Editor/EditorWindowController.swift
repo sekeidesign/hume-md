@@ -6,19 +6,60 @@
 //
 
 import AppKit
+import SwiftUI
 
 final class EditorWindowController: NSWindowController, NSWindowDelegate {
   var autosavedFrame: CGRect?
   var needsUpdateFocus = false
+
+  private var _editorViewController: EditorViewController?
 
   required init?(coder: NSCoder) {
     super.init(coder: coder)
     shouldCascadeWindows = true
   }
 
+  override var contentViewController: NSViewController? {
+    get { super.contentViewController }
+    set {
+      // When makeWindowControllers() sets the EditorViewController, wrap it in a split view
+      if let editorVC = newValue as? EditorViewController {
+        _editorViewController = editorVC
+
+        let sidebarView = RepositorySidebarView(
+          onFileSelected: { [weak editorVC] file in
+            editorVC?.loadRepositoryFile(file)
+          },
+          onOpenFolder: { [weak self] in
+            self?.openFolderPanel()
+          }
+        )
+        .environment(RepositoryManager.shared)
+
+        let sidebarHostingVC = NSHostingController(rootView: sidebarView)
+        let sidebarItem = NSSplitViewItem(sidebarWithViewController: sidebarHostingVC)
+        sidebarItem.minimumThickness = 280
+        sidebarItem.maximumThickness = 480
+        sidebarItem.preferredThicknessFraction = 0.25
+        sidebarItem.canCollapse = true
+
+        let editorItem = NSSplitViewItem(viewController: editorVC)
+        editorItem.minimumThickness = 400
+
+        let splitVC = NSSplitViewController()
+        splitVC.addSplitViewItem(sidebarItem)
+        splitVC.addSplitViewItem(editorItem)
+
+        super.contentViewController = splitVC
+      } else {
+        super.contentViewController = newValue
+      }
+    }
+  }
+
   override func windowDidLoad() {
     super.windowDidLoad()
-    window?.minSize = CGSize(width: 240, height: 0)
+    window?.minSize = CGSize(width: 640, height: 0)
     window?.backgroundColor = .controlBackgroundColor
 
     windowFrameAutosaveName = "Editor"
@@ -85,11 +126,31 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate {
   }
 }
 
+// MARK: - Internal
+
+extension EditorWindowController {
+  func openFolderPanel() {
+    let panel = NSOpenPanel()
+    panel.canChooseFiles = false
+    panel.canChooseDirectories = true
+    panel.allowsMultipleSelection = false
+    panel.prompt = "Open"
+    panel.message = "Choose a folder to open in the sidebar"
+    guard let window else { return }
+    panel.beginSheetModal(for: window) { response in
+      guard response == .OK, let url = panel.url else { return }
+      let remoteURL = (try? GitService.shared.remoteURL(in: url)) ?? ""
+      let repo = RepositoryModel(localPath: url, remoteURL: remoteURL)
+      RepositoryManager.shared.loadRepository(repo)
+    }
+  }
+}
+
 // MARK: - Private
 
 private extension EditorWindowController {
   var editorViewController: EditorViewController? {
-    contentViewController as? EditorViewController
+    _editorViewController
   }
 
   func saveWindowRect() {

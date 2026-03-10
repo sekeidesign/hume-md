@@ -100,14 +100,21 @@ extension NSToolbarItem.Identifier {
   static let shareDocument = newItem("shareDocument")
   static let copyPandocCommand = newItem("copyPandocCommand")
   static let writingTools = newItem("writingTools")
+  static let connectRepository = newItem("connectRepository")
+  static let publish = newItem("publish")
+  static let branchLabel = newItem("branchLabel")
 
   static var defaultItems: [NSToolbarItem.Identifier] {
     [
+      .flexibleSpace,
       .tableOfContents,
       .formatHeaders,
       .toggleBold,
       .toggleItalic,
       .toggleList,
+      .flexibleSpace,
+      .branchLabel,
+      .publish,
     ]
   }
 
@@ -138,6 +145,9 @@ extension NSToolbarItem.Identifier {
       return []
     }()
     + [
+      .connectRepository,
+      .publish,
+      .branchLabel,
       .space,
       .flexibleSpace,
     ]
@@ -170,6 +180,9 @@ private extension NSToolbarItem.Identifier {
     case .shareDocument: return Localized.Toolbar.shareDocument
     case .copyPandocCommand: return Localized.Toolbar.copyPandocCommand
     case .writingTools: return Localized.WritingTools.title
+    case .connectRepository: return "Open Folder"
+    case .publish: return "Push"
+    case .branchLabel: return "Branch"
     default: fatalError("Unexpected toolbar item identifier: \(self)")
     }
   }
@@ -193,6 +206,9 @@ private extension NSToolbarItem.Identifier {
     case .shareDocument: return Icons.squareAndArrowUp
     case .copyPandocCommand: return Icons.terminal
     case .writingTools: return Icons.wandAndSparkles
+    case .connectRepository: return "point.topleft.down.to.point.bottomright.curvepath"
+    case .publish: return "arrow.up.to.line"
+    case .branchLabel: return "arrow.branch"
     default: fatalError("Unexpected toolbar item identifier: \(self)")
     }
   }

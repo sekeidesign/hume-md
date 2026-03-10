@@ -7,6 +7,7 @@
 
 import AppKit
 import MarkEditKit
+import SwiftUI
 
 extension EditorViewController {
   var tableOfContentsMenuButton: NSPopUpButton? {
@@ -94,6 +95,9 @@ extension EditorViewController: NSToolbarDelegate {
       case .shareDocument: return shareDocumentItem
       case .copyPandocCommand: return copyPandocCommandItem
       case .writingTools: return writingToolsItem
+      case .connectRepository: return connectRepositoryItem
+      case .publish: return publishItem
+      case .branchLabel: return branchLabelItem
       default:
         if let customItem = customItem(with: itemIdentifier) {
           return .with(identifier: itemIdentifier, customItem: customItem)
@@ -130,7 +134,7 @@ extension EditorViewController: NSToolbarDelegate {
 
 extension EditorViewController: NSToolbarItemValidation {
   func validateToolbarItem(_ item: NSToolbarItem) -> Bool {
-    true
+    return true
   }
 }
 
@@ -269,6 +273,37 @@ private extension EditorViewController {
     }
   }
 
+  var connectRepositoryItem: NSToolbarItem {
+    .with(identifier: .connectRepository) { [weak self] in
+      (self?.view.window?.windowController as? EditorWindowController)?.openFolderPanel()
+    }
+  }
+
+  var publishItem: NSToolbarItem {
+    let item = NSToolbarItem(itemIdentifier: .publish)
+    item.label = "Push"
+    item.view = NSHostingView(
+      rootView: PushButtonView { [weak self] in
+        guard RepositoryManager.shared.repository != nil else { return }
+        let vc = PublishViewController()
+        self?.presentAsSheet(vc)
+      }.environment(RepositoryManager.shared)
+    )
+    return item
+  }
+
+  var branchLabelItem: NSToolbarItem {
+    let item = NSToolbarItem(itemIdentifier: .branchLabel)
+    item.label = "Branch"
+    let hostingView = NSHostingView(
+      rootView: BranchLabelView().environment(RepositoryManager.shared)
+    )
+    hostingView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+    hostingView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+    item.view = hostingView
+    return item
+  }
+
   func updateTableOfContentsMenu(_ menu: NSMenu) {
     // Remove existing items, the first two are placeholders that we want to keep
     for (index, item) in menu.items.enumerated() where index > 1 {
@@ -315,5 +350,177 @@ private extension EditorViewController {
 
     startTextEditing()
     bridge.toc.gotoHeader(headingInfo: headingInfo)
+  }
+}
+
+// MARK: - SwiftUI Toolbar Views
+
+private struct PushButtonView: View {
+  @Environment(RepositoryManager.self)
+  private var manager
+
+  let action: () -> Void
+
+  var body: some View {
+    Button(role: .confirm, action: action) {
+      Label("Push", systemImage: "arrow.up")
+        .labelStyle(.titleAndIcon)
+    }
+    .buttonStyle(.glassProminent)
+    .disabled(manager.repository == nil)
+  }
+}
+
+private struct BranchLabelView: View {
+  @Environment(RepositoryManager.self)
+  private var manager
+  @State private var showPopover = false
+
+  var body: some View {
+    Button {
+      showPopover = true
+    } label: {
+      Text("⎇  \(manager.currentBranch.isEmpty ? "No branch" : manager.currentBranch)")
+        .font(.system(size: 11))
+        .foregroundStyle(.secondary)
+        .padding(.horizontal, 12)
+        .fixedSize()
+    }
+    .buttonStyle(.plain)
+    .popover(isPresented: $showPopover, arrowEdge: .bottom) {
+      BranchPopoverView(isPresented: $showPopover)
+        .environment(manager)
+    }
+  }
+}
+
+private struct BranchPopoverView: View {
+  @Environment(RepositoryManager.self)
+  private var manager
+  @Binding var isPresented: Bool
+  @State private var branches: [String] = []
+  @State private var showNewBranchField = false
+  @State private var newBranchName = ""
+  @State private var isLoading = false
+  @State private var errorMessage: String?
+
+  var body: some View {
+    VStack(alignment: .leading, spacing: 0) {
+      Text("Switch Branch")
+        .font(.headline)
+        .padding(.horizontal, 16)
+        .padding(.top, 14)
+        .padding(.bottom, 8)
+
+      Divider()
+
+      if isLoading {
+        ProgressView()
+          .frame(maxWidth: .infinity)
+          .padding()
+      } else {
+        ScrollView {
+          LazyVStack(alignment: .leading, spacing: 0) {
+            ForEach(branches, id: \.self) { branch in
+              branchRow(branch)
+            }
+          }
+        }
+        .frame(maxHeight: 600)
+      }
+
+      Divider()
+
+      if showNewBranchField {
+        HStack {
+          TextField("branch-name", text: $newBranchName)
+            .textFieldStyle(.roundedBorder)
+            .onSubmit { createBranch() }
+          Button("Create") { createBranch() }
+            .disabled(newBranchName.trimmingCharacters(in: .whitespaces).isEmpty)
+          Button("Cancel") {
+            showNewBranchField = false
+            newBranchName = ""
+          }
+          .foregroundStyle(.secondary)
+        }
+        .padding(12)
+      } else {
+        Button {
+          showNewBranchField = true
+        } label: {
+          Label("New Branch", systemImage: "plus")
+        }
+        .padding(12)
+      }
+
+      if let error = errorMessage {
+        Text(error)
+          .font(.caption)
+          .foregroundStyle(.red)
+          .padding(.horizontal, 12)
+          .padding(.bottom, 8)
+      }
+    }
+    .frame(width: 240)
+    .task { await loadBranches() }
+  }
+
+  private func branchRow(_ branch: String) -> some View {
+    let isCurrent = branch == manager.currentBranch
+    return Button {
+      guard !isCurrent else { return }
+      Task { await checkout(branch) }
+    } label: {
+      HStack {
+        Image(systemName: "arrow.branch")
+          .frame(width: 16)
+          .foregroundStyle(isCurrent ? Color.accentColor : .secondary)
+        Text(branch)
+          .font(.system(.body, design: .monospaced, weight: isCurrent ? .semibold : .regular))
+        Spacer()
+        if isCurrent {
+          Image(systemName: "checkmark")
+            .foregroundStyle(Color.accentColor)
+        }
+      }
+      .contentShape(Rectangle())
+      .padding(.horizontal, 12)
+      .padding(.vertical, 6)
+    }
+    .buttonStyle(.plain)
+    .background(isCurrent ? Color.accentColor.opacity(0.1) : .clear)
+  }
+
+  private func loadBranches() async {
+    isLoading = true
+    branches = (try? await manager.listBranches()) ?? []
+    isLoading = false
+  }
+
+  private func checkout(_ branch: String) async {
+    do {
+      try await manager.checkoutBranch(branch)
+      isPresented = false
+    } catch {
+      errorMessage = error.localizedDescription
+    }
+  }
+
+  private func createBranch() {
+    let name = newBranchName.trimmingCharacters(in: .whitespaces)
+    guard !name.isEmpty else { return }
+    newBranchName = ""
+    showNewBranchField = false
+    Task {
+      do {
+        try await manager.createBranch(named: name)
+        await loadBranches()
+        isPresented = false
+      } catch {
+        errorMessage = error.localizedDescription
+        showNewBranchField = true
+      }
+    }
   }
 }
